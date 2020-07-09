@@ -1,0 +1,1076 @@
+﻿<SCCD_DQ302_1_SNS_SW01_HWS9306>
+<SCCD_DQ302_1_SNS_SW01_HWS9306>dis cur
+!Software Version V200R010C00SPC600
+#
+sysname SCCD_DQ302_1_SNS_SW01_HWS9306
+#
+info-center source default channel 2 log level warning trap level warning
+info-center source default channel 4 log level informational trap level warning
+info-center loghost source Vlanif4001
+info-center loghost 223.86.3.71 facility local0
+info-center loghost 218.205.236.219
+info-center logbuffer size 1024
+#
+ipv6
+#
+vlan batch 100 4001 to 4002
+#
+loopback-detect auto disable
+#
+authentication-profile name default_authen_profile
+authentication-profile name dot1x_authen_profile
+authentication-profile name mac_authen_profile
+authentication-profile name portal_authen_profile
+authentication-profile name dot1xmac_authen_profile
+authentication-profile name multi_authen_profile
+#
+assign resource-mode slot 1 mode ipv4-ipv6 6:1
+assign resource-mode slot 2 mode ipv4-ipv6 6:1
+#
+access-user arp-detect default ip-address 0.0.0.0
+#
+undo http server enable
+undo http secure-server enable
+#
+clock timezone utc add 08:00:00
+#
+ecmp local-preference disable
+#
+arp learning ip-network-cross enable
+#
+undo portal url-encode enable
+#
+eth-trunk load-balance hash-mode advanced slot 3
+#
+set flow-change-ratio input-broadcast-detect disable
+#
+set max-ecmp-path 32
+#
+diffserv domain default
+#
+radius-server template default            
+ radius-server shared-key cipher %^%#'HWs6=XO)1{3.pT>))h.n+:qRLoa(Omcm_&2W'6(%^%#
+#
+ecc peer-public-key 183.221.35.122 encoding-type der
+ public-key-code begin
+    04009098 5EF10AB7 BE6DACE1 10A0BA1F 4515E824 C38EC0CD 302282D8 0EFB21F1
+    A9868A8A 5FB59E28 A74BC1AF D67A2BD2 312221DC 43FDAD95 9322C728 778A9C95
+    F0F33901 FD229D31 82A6EF89 7BCDF83D 6367846C 4C90BAF5 830F133F 05CBBE94
+    E0977051 05204CA0 27894ACB BB60FAD1 D9B62446 8130498A 515E6487 56F71875
+    05A710BD 53
+ public-key-code end
+peer-public-key end
+#
+acl number 2003
+ rule 5 permit source 221.182.40.1 0
+ rule 10 permit source 183.221.35.113 0
+ rule 1000 deny
+acl number 2101
+ description ACL_NetworkManagement
+ rule 5 permit source 211.137.82.0 0.0.0.255
+ rule 10 permit source 223.86.3.84 0
+ rule 15 permit source 183.222.103.252 0.0.0.1
+ rule 25 permit source 10.255.248.200 0.0.0.7
+ rule 25 description zabbixSNMP
+acl number 2104                           
+ description VTY rule 5 permit source 218.200.174.89 0
+ rule 10 permit source 218.200.174.90 0
+ rule 15 permit source 223.86.3.71 0
+ rule 20 permit source 192.168.107.6 0
+ rule 500 deny
+#
+acl number 3001
+ description 39.137.103.0/24
+ rule 5 permit ip source 223.86.3.71 0
+ rule 10 permit ip source 223.86.3.87 0
+ rule 15 permit ip source 223.86.3.88 0.0.0.3
+ rule 20 permit ip source 223.86.3.92 0
+ rule 25 permit ip source 218.200.174.89 0
+ rule 30 permit ip source 218.200.174.90 0
+ rule 35 permit ip source 117.173.149.8 0
+ rule 40 permit ip source 117.173.149.9 0
+ rule 45 permit ip source 223.87.20.0 0.0.0.255
+ rule 47 permit tcp source 39.137.100.45 0
+ rule 48 permit tcp source 117.128.7.0 0.0.0.255
+ rule 50 permit tcp destination-port eq www
+ rule 55 permit tcp destination-port eq 8080
+ rule 60 permit tcp destination-port eq 8088
+ rule 65 permit tcp destination-port eq 90
+ rule 70 permit tcp destination-port eq 8001
+ rule 75 permit tcp destination-port eq 443
+ rule 80 permit tcp destination-port eq 843
+ rule 85 permit tcp destination-port eq 6510
+ rule 90 permit tcp destination-port eq 6310
+ rule 95 permit tcp destination-port eq 6320
+ rule 100 permit tcp destination-port eq 6120
+ rule 105 permit tcp destination-port eq 6060
+ rule 110 permit tcp destination-port eq 6410
+ rule 115 permit tcp destination-port eq 6610
+ rule 120 permit tcp destination-port eq 6520
+ rule 125 permit tcp destination-port eq 7120
+ rule 130 permit tcp destination 117.173.149.8 0 destination-port eq 8443
+ rule 135 permit tcp destination 117.173.149.8 0 destination-port eq 8082
+ rule 140 permit tcp destination 117.173.149.8 0 destination-port eq 9098
+ rule 145 permit tcp destination 117.173.149.8 0 destination-port eq 9200
+ rule 150 permit tcp destination 117.173.149.8 0 destination-port eq 22222
+ rule 155 permit tcp destination 117.173.149.8 0 destination-port eq 21180
+ rule 160 permit tcp destination 117.173.149.9 0 destination-port eq 8443
+ rule 165 permit tcp destination 117.173.149.9 0 destination-port eq 8082
+ rule 170 permit tcp destination 117.173.149.9 0 destination-port eq 9098
+ rule 175 permit tcp destination 117.173.149.9 0 destination-port eq 9200
+ rule 180 permit tcp destination 117.173.149.9 0 destination-port eq 22222
+ rule 185 permit tcp destination 117.173.149.9 0 destination-port eq 21180
+ rule 190 permit tcp destination 223.87.20.0 0.0.0.255 destination-port eq 9098
+ rule 195 permit tcp destination 223.87.20.7 0 destination-port eq 22
+ rule 200 permit tcp destination 223.87.20.7 0 destination-port eq 22222
+ rule 205 deny tcp destination-port eq 22222
+ rule 210 permit udp
+ rule 215 permit tcp source 39.134.200.220 0.0.0.1 destination-port eq 6800
+ rule 220 permit tcp source 39.134.200.222 0 destination-port eq 6800
+ rule 225 permit ip source 39.134.200.192 0.0.0.63
+acl number 3500
+ rule 1 deny tcp destination-port eq 4444
+ rule 2 deny udp destination-port eq tftp
+ rule 3 deny tcp destination-port eq 135
+ rule 4 deny udp destination-port eq 135
+ rule 5 deny tcp destination-port eq 139
+ rule 6 deny udp destination-port eq netbios-ssn
+ rule 7 deny tcp destination-port eq 445
+ rule 8 deny udp destination-port eq 445
+ rule 9 deny tcp destination-port eq 593
+ rule 10 deny udp destination-port eq 593
+ rule 11 deny udp destination-port eq 1434
+ rule 12 deny tcp destination-port eq 5554
+ rule 13 deny tcp destination-port eq 9995
+ rule 14 deny tcp destination-port eq 9996
+ rule 15 deny udp destination-port eq netbios-ns
+ rule 16 deny udp destination-port eq netbios-dgm
+#
+acl ipv6 number 3001
+ rule 5 permit icmpv6
+ rule 10 permit tcp source-port eq www
+ rule 15 permit tcp source-port eq 8080
+ rule 20 permit tcp source-port eq 6311
+ rule 25 permit tcp source-port eq 443
+ rule 30 permit tcp source-port eq 17080
+ rule 35 permit tcp source-port eq 8443
+ rule 40 permit tcp source-port eq 8088
+ rule 45 permit tcp source-port eq 9201
+ rule 50 permit tcp source-port eq 82
+ rule 55 permit tcp source-port eq 18080
+ rule 60 permit tcp source-port eq 18081
+ rule 65 permit tcp source-port eq 9200
+ rule 70 permit tcp source-port eq 28282
+ rule 75 permit tcp destination-port eq www
+ rule 80 permit tcp destination-port eq 8080
+ rule 85 permit tcp destination-port eq 6311
+ rule 90 permit tcp destination-port eq 443
+ rule 95 permit tcp destination-port eq 17080
+ rule 100 permit tcp destination-port eq 8443
+ rule 105 permit tcp destination-port eq 8088
+ rule 110 permit tcp destination-port eq 9201
+ rule 115 permit tcp destination-port eq 82
+ rule 120 permit tcp destination-port eq 18080
+ rule 125 permit tcp destination-port eq 18081
+ rule 130 permit tcp destination-port eq 9200
+ rule 135 permit tcp destination-port eq 28282
+ rule 140 permit udp destination-port eq dns
+#
+traffic classifier yewu_permit operator or precedence 5
+ if-match acl 3001
+traffic classifier yewu_permit_v6 operator or precedence 10
+ if-match ipv6 acl 3001
+#
+traffic behavior yewu_permit
+ permit
+traffic behavior yewu_permit_v6
+ permit
+#
+traffic policy yewu_permit match-order config
+ classifier yewu_permit behavior yewu_permit
+traffic policy yewu_permit_v6 match-order config
+ classifier yewu_permit_v6 behavior yewu_permit_v6
+#
+free-rule-template name default_free_rule
+#                                         
+portal-access-profile name portal_access_profile
+#
+drop-profile default
+#
+vlan 100
+ traffic-policy yewu_permit_v6 inbound
+ traffic-policy yewu_permit outbound
+#
+aaa
+ authentication-scheme default
+ authentication-scheme radius
+  authentication-mode radius
+ authorization-scheme default
+ accounting-scheme default
+ domain default
+  authentication-scheme default
+ domain default_admin
+  authentication-scheme default
+ undo local-user admin
+ local-user weihu password irreversible-cipher $1a${mwlJV{&K=$gOwZ%uTt2/]L|}5_a6E@uy+pT[<V%2qM7:B^CyDZ$
+ local-user weihu privilege level 1
+ local-user weihu service-type ssh
+ local-user fortyy password irreversible-cipher $1a$u{IxG@IT-($`,N&H2slACjWMfN7/cI26efm%N"_&Skyp<Mq\@xL$
+ local-user fortyy privilege level 3      
+ local-user fortyy service-type ssh
+ local-user tyroot password irreversible-cipher $1a$;N_4Zi"49U$SW%m@4(-#W(I^m3X2g10K)9rV>5\EO{aJRQ&\iV"$
+ local-user tyroot privilege level 3
+ local-user tyroot service-type ssh
+ local-user whroot password irreversible-cipher $1a$-AEOI~YB>5$sb*=%Yk`&-N!:/UNe$I6r!Ww~7/v1'Z$$(ZOIggU$
+ local-user whroot privilege level 3
+ local-user whroot service-type ssh
+ local-user weihu-4a password irreversible-cipher $1a$52=\,R4X1'$>jLP-Z_k|9x7Y>DLsVa>$T%kH3e+[Bm07cCw@I'*$
+ local-user weihu-4a privilege level 3
+ local-user weihu-4a service-type ssh
+ local-user weihu-4a-ssh password irreversible-cipher $1a$RnaR3]Rr0B$fn^|$b"}'VU_tm0Ya{r2VG5*&u[#P#WHfC@y]-y:$
+ local-user weihu-4a-ssh privilege level 3
+ local-user weihu-4a-ssh service-type ssh
+ local-user jt_zltd_20190111 password irreversible-cipher $1a$NLCZU>2o+A$aSvK#1YMF79v@IRyO~AWSRb42b>Y\RRu%hVJq8g;$
+ local-user jt_zltd_20190111 privilege level 1
+ local-user jt_zltd_20190111 service-type ssh
+#
+ospfv3 1
+ router-id 183.221.35.114
+ import-route direct type 1 route-policy direct-ospf-v6
+ default-route-advertise
+#
+ntp-service server disable
+ntp-service ipv6 server disable           
+ntp-service authentication enable
+ntp-service source-interface Vlanif4001
+ntp-service access peer 2003
+ntp-service unicast-server 183.221.35.113
+#
+interface Vlanif100
+ description TO-[ZTE-RedirectServer]
+ ipv6 enable
+ ip address 39.137.103.66 255.255.255.192
+ ipv6 address 2409:8087:6200:2:1200::2/72
+ ipv6 address auto link-local
+ vrrp vrid 10 virtual-ip 39.137.103.65
+ vrrp vrid 10 priority 110
+ vrrp6 vrid 11 virtual-ip FE80:8087:6200:2:1200::1 link-local
+ vrrp6 vrid 11 virtual-ip 2409:8087:6200:2:1200::1
+ vrrp6 vrid 11 priority 110
+#
+interface Vlanif4001
+ description To-[SCCD-PB-CMNET-RT03]
+ ipv6 enable
+ ip address 183.221.35.114 255.255.255.252
+ ipv6 address 2409:8062:0:3::73/127
+ ipv6 address auto link-local
+#                                         
+interface Vlanif4002
+ description To-[SCCD-DQ302-CDN-SW02]-Vlanif4002
+ ipv6 enable
+ ip address 183.221.35.121 255.255.255.252
+ ipv6 address FEC0::/127
+ ipv6 address auto link-local
+ ospfv3 1 area 0.0.0.0
+ ospfv3 network-type p2p
+ ospfv3 timer hello 1
+ ospfv3 authentication-mode hmac-sha256 key-id 1 cipher %^%#4.QuA(Apt8g}E1-]K/>/sZk(M5m9}9ki^[+T5EY9%^%#
+ ospf authentication-mode md5 1 cipher %^%#VDY;5<c*w${&M;~Et\CXx&'tA):[pX@cwf.9g5\K%^%#
+ ospf network-type p2p
+ ospf timer hello 1
+#
+interface Eth-Trunk1
+ description To-[SCCD-PB-CMNET-RT03]
+ port link-type access
+ port default vlan 4001
+ mode lacp
+ lacp timeout fast
+#
+interface Eth-Trunk2
+ description To-[SCCD-DQ302-CDN-SW02]-XGE1/0/3
+ port link-type trunk                     
+ undo port trunk allow-pass vlan 1
+ port trunk allow-pass vlan 100 4002
+ mode lacp
+ lacp timeout fast
+#
+interface Ethernet0/0/0
+ ip address 192.168.0.1 255.255.255.252
+#
+interface GigabitEthernet1/0/0
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/1
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/2
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/3            
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/4
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/5
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/6
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/7
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#                                         
+interface GigabitEthernet1/0/8
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/9
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/10
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/11
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/12
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100                    
+#
+interface GigabitEthernet1/0/13
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/14
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/15
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/16
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/17
+ description TO-[ZTE-RedirectServer1]
+ port link-type access                    
+ port default vlan 100
+#
+interface GigabitEthernet1/0/18
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/19
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/20
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/21
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/22
+ description TO-[ZTE-RedirectServer1]     
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/23
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/24
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/25
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/26
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/27           
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/28
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/29
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/30
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/31
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#                                         
+interface GigabitEthernet1/0/32
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/33
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/34
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/35
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/36
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100                    
+#
+interface GigabitEthernet1/0/37
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/38
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/39
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/40
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/41
+ description TO-[ZTE-RedirectServer1]
+ port link-type access                    
+ port default vlan 100
+#
+interface GigabitEthernet1/0/42
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/43
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/44
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/45
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/46
+ description TO-[ZTE-RedirectServer1]     
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet1/0/47
+ description TO-[ZTE-RedirectServer1]
+ port link-type access
+ port default vlan 100
+#
+interface GigabitEthernet2/0/0
+ shutdown
+#
+interface GigabitEthernet2/0/1
+ shutdown
+#
+interface GigabitEthernet2/0/2
+ shutdown
+#
+interface GigabitEthernet2/0/3
+ shutdown
+#
+interface GigabitEthernet2/0/4
+ shutdown
+#
+interface GigabitEthernet2/0/5            
+ shutdown
+#
+interface GigabitEthernet2/0/6
+ shutdown
+#
+interface GigabitEthernet2/0/7
+ shutdown
+#
+interface GigabitEthernet2/0/8
+ shutdown
+#
+interface GigabitEthernet2/0/9
+ shutdown
+#
+interface GigabitEthernet2/0/10
+ shutdown
+#
+interface GigabitEthernet2/0/11
+ shutdown
+#
+interface GigabitEthernet2/0/12
+ shutdown
+#
+interface GigabitEthernet2/0/13           
+ shutdown
+#
+interface GigabitEthernet2/0/14
+ shutdown
+#
+interface GigabitEthernet2/0/15
+ shutdown
+#
+interface GigabitEthernet2/0/16
+ shutdown
+#
+interface GigabitEthernet2/0/17
+ shutdown
+#
+interface GigabitEthernet2/0/18
+ shutdown
+#
+interface GigabitEthernet2/0/19
+ shutdown
+#
+interface GigabitEthernet2/0/20
+ shutdown
+#
+interface GigabitEthernet2/0/21           
+ shutdown
+#
+interface GigabitEthernet2/0/22
+ shutdown
+#
+interface GigabitEthernet2/0/23
+ shutdown
+#
+interface GigabitEthernet2/0/24
+#
+interface GigabitEthernet2/0/25
+#
+interface GigabitEthernet2/0/26
+#
+interface GigabitEthernet2/0/27
+#
+interface GigabitEthernet2/0/28
+#
+interface GigabitEthernet2/0/29
+#
+interface GigabitEthernet2/0/30
+#
+interface GigabitEthernet2/0/31
+#                                         
+interface GigabitEthernet2/0/32
+#
+interface GigabitEthernet2/0/33
+#
+interface GigabitEthernet2/0/34
+#
+interface GigabitEthernet2/0/35
+#
+interface GigabitEthernet2/0/36
+#
+interface GigabitEthernet2/0/37
+#
+interface GigabitEthernet2/0/38
+#
+interface GigabitEthernet2/0/39
+#
+interface GigabitEthernet2/0/40
+#
+interface GigabitEthernet2/0/41
+#
+interface GigabitEthernet2/0/42
+#
+interface GigabitEthernet2/0/43
+#                                         
+interface GigabitEthernet2/0/44
+#
+interface GigabitEthernet2/0/45
+#
+interface GigabitEthernet2/0/46
+ shutdown
+ urpf strict
+#
+interface GigabitEthernet2/0/47
+ shutdown
+#
+interface XGigabitEthernet3/0/0
+ description To-[SCCD-PB-CMNET-RT03]-GE3/3/1/16
+ eth-trunk 1
+#
+interface XGigabitEthernet3/0/1
+ description To-[SCCD-PB-CMNET-RT03]-GE3/5/1/16
+ eth-trunk 1
+#
+interface XGigabitEthernet3/0/2
+ description To-[SCCD_DQ302_SNS_HWCDN_SW02_HWS9306]-XGE3/0/2
+ eth-trunk 2
+#
+interface XGigabitEthernet3/0/3           
+ description To-[SCCD_DQ302_SNS_HWCDN_SW02_HWS9306]-XGE3/0/3
+ eth-trunk 2
+#
+interface XGigabitEthernet3/0/4
+#
+interface XGigabitEthernet3/0/5
+#
+interface XGigabitEthernet3/0/6
+#
+interface XGigabitEthernet3/0/7
+#
+interface XGigabitEthernet3/0/8
+#
+interface XGigabitEthernet3/0/9
+#
+interface XGigabitEthernet3/0/10
+#
+interface XGigabitEthernet3/0/11
+#
+interface XGigabitEthernet3/0/12
+#
+interface XGigabitEthernet3/0/13
+#
+interface XGigabitEthernet3/0/14          
+#
+interface XGigabitEthernet3/0/15
+#
+interface NULL0
+#
+ospf 1 router-id 183.221.35.114
+ default-route-advertise
+ import-route direct type 1 route-policy direct-ospf
+ area 0.0.0.0
+  network 183.221.35.120 0.0.0.3
+#
+route-policy direct-ospf permit node 10
+ if-match ip-prefix direct-ospf
+#
+route-policy direct-ospf-v6 permit node 10
+ if-match ipv6 address prefix-list direct-ospf-v6
+#
+ip ip-prefix direct-ospf index 10 permit 39.137.103.64 26
+#
+ip route-static 0.0.0.0 0.0.0.0 183.221.35.113
+#
+ipv6 route-static :: 0 Vlanif4001 2409:8062:0:3::72 description SCCD-PB-CMNET-RT03
+#
+ip ipv6-prefix direct-ospf-v6 index 10 permit 2409:8087:6200:2:1200:: 72
+#
+snmp-agent
+snmp-agent local-engineid 800007DB03A08CF8BACD40
+snmp-agent community read cipher %^%#FbWH@]=mZ(,$c+6c`C1LnKYq8vq^(89HgA;hkuA%QQ&C'kKv!4clt6Pc&Vr)/=d|KKJICSu+"^#gf6W!%^%# acl 2101
+snmp-agent sys-info version v2c
+undo snmp-agent sys-info version v3
+snmp-agent target-host trap address udp-domain 211.137.82.167 udp-port 10162 params securityname cipher %^%#,b#x'M!aDAs60nBj|z!A][L4GtV/(/:MTlRe~4s"%^%# v2c
+snmp-agent target-host trap address udp-domain 223.86.3.84 udp-port 10162 params securityname cipher %^%#O-[3>yVGv3kwbz*<R(,246=wSXb;44*=L&ZKVrj1%^%# v2c
+snmp-agent trap source Vlanif4001
+snmp-agent trap enable
+#
+stelnet server enable
+ssh user fortyy
+ssh user fortyy authentication-type password
+ssh user fortyy service-type stelnet
+ssh user jt_zltd_20190111
+ssh user jt_zltd_20190111 authentication-type password
+ssh user jt_zltd_20190111 service-type stelnet
+ssh user tyroot
+ssh user tyroot authentication-type password
+ssh user tyroot service-type stelnet
+ssh user weihu
+ssh user weihu authentication-type password
+ssh user weihu service-type stelnet       
+ssh user weihu-4a
+ssh user weihu-4a authentication-type password
+ssh user weihu-4a service-type stelnet
+ssh user weihu-4a-ssh
+ssh user weihu-4a-ssh authentication-type password
+ssh user weihu-4a-ssh service-type stelnet
+ssh user whroot
+ssh user whroot authentication-type password
+ssh user whroot service-type stelnet
+ssh client first-time enable
+ssh client 183.221.35.122 assign ecc-key 183.221.35.122
+#
+easy-operation dtls disable
+#
+user-interface maximum-vty 15
+user-interface con 0
+ authentication-mode password
+ set authentication password cipher $1c$C0'5Vq.$+X$Lxd33<6~!(=g4/FfLKz&8Fd7CFS+^)[#t[%OX_z,$
+ idle-timeout 15 0
+ screen-length 0
+user-interface vty 0 14
+ acl 2104 inbound
+ authentication-mode aaa
+ idle-timeout 15 0                        
+user-interface vty 16 20
+#
+dot1x-access-profile name dot1x_access_profile
+#
+mac-access-profile name mac_access_profile
+#
+return
+<SCCD_DQ302_1_SNS_SW01_HWS9306>
+<SCCD_DQ302_1_SNS_SW01_HWS9306>dis int brie
+PHY: Physical
+*down: administratively down
+^down: standby
+~down: LDT down
+#down: LBDT down
+(l): loopback
+(s): spoofing
+(E): E-Trunk down
+(b): BFD down
+(e): ETHOAM down
+(dl): DLDP down
+(d): Dampening Suppressed
+(ld): LDT block
+(lb): LBDT block
+InUti/OutUti: input utility/output utility
+Interface                   PHY   Protocol  InUti OutUti   inErrors  outErrors
+Eth-Trunk1                  up    up           0%  0.01%          0          0
+  XGigabitEthernet3/0/0     up    up           0%  0.01%          0          0
+  XGigabitEthernet3/0/1     up    up           0%     0%          0          0
+Eth-Trunk2                  up    up           0%     0%          0          0
+  XGigabitEthernet3/0/2     up    up           0%     0%          0          0
+  XGigabitEthernet3/0/3     up    up           0%     0%          0          0
+Ethernet0/0/0               down  down      0.54%  0.01%          0          0
+GigabitEthernet1/0/0        up    up           0%     0%          0          0
+GigabitEthernet1/0/1        up    up           0%     0%          0          0
+GigabitEthernet1/0/2        up    up           0%     0%          0          0
+GigabitEthernet1/0/3        up    up           0%     0%          0          0
+GigabitEthernet1/0/4        up    up           0%     0%          0          0
+GigabitEthernet1/0/5        up    up           0%     0%          0          0
+GigabitEthernet1/0/6        up    up           0%     0%          0          0
+GigabitEthernet1/0/7        up    up           0%     0%          0          0
+GigabitEthernet1/0/8        up    up           0%     0%          0          0
+GigabitEthernet1/0/9        up    up           0%     0%          0          0
+GigabitEthernet1/0/10       up    up           0%     0%          0          0
+GigabitEthernet1/0/11       up    up           0%     0%          0          0
+GigabitEthernet1/0/12       up    up           0%     0%          0          0
+GigabitEthernet1/0/13       up    up           0%     0%          0          0
+GigabitEthernet1/0/14       up    up           0%     0%          0          0
+GigabitEthernet1/0/15       up    up           0%     0%          0          0
+GigabitEthernet1/0/16       up    up           0%     0%          0          0
+GigabitEthernet1/0/17       up    up           0%     0%          0          0
+GigabitEthernet1/0/18       up    up           0%     0%          0          0
+GigabitEthernet1/0/19       up    up           0%     0%          0          0
+GigabitEthernet1/0/20       up    up           0%     0%          0          0
+GigabitEthernet1/0/21       up    up           0%     0%          0          0
+GigabitEthernet1/0/22       up    up           0%     0%          0          0
+GigabitEthernet1/0/23       up    up           0%     0%          0          0
+GigabitEthernet1/0/24       up    up           0%     0%          0          0
+GigabitEthernet1/0/25       up    up           0%     0%          0          0
+GigabitEthernet1/0/26       down  down         0%     0%          0          0
+GigabitEthernet1/0/27       down  down         0%     0%          0          0
+GigabitEthernet1/0/28       down  down         0%     0%          0          0
+GigabitEthernet1/0/29       down  down         0%     0%          0          0
+GigabitEthernet1/0/30       down  down         0%     0%          0          0
+GigabitEthernet1/0/31       down  down         0%     0%          0          0
+GigabitEthernet1/0/32       down  down         0%     0%          0          0
+GigabitEthernet1/0/33       down  down         0%     0%          0          0
+GigabitEthernet1/0/34       down  down         0%     0%          0          0
+GigabitEthernet1/0/35       down  down         0%     0%          0          0
+GigabitEthernet1/0/36       down  down         0%     0%          0          0
+GigabitEthernet1/0/37       down  down         0%     0%          0          0
+GigabitEthernet1/0/38       down  down         0%     0%          0          0
+GigabitEthernet1/0/39       down  down         0%     0%          0          0
+GigabitEthernet1/0/40       down  down         0%     0%          0          0
+GigabitEthernet1/0/41       down  down         0%     0%          0          0
+GigabitEthernet1/0/42       down  down         0%     0%          0          0
+GigabitEthernet1/0/43       down  down         0%     0%          0          0
+GigabitEthernet1/0/44       down  down         0%     0%          0          0
+GigabitEthernet1/0/45       down  down         0%     0%          0          0
+GigabitEthernet1/0/46       down  down         0%     0%          0          0
+GigabitEthernet1/0/47       down  down         0%     0%          0          0
+GigabitEthernet2/0/0        *down down         0%     0%          0          0
+GigabitEthernet2/0/1        *down down         0%     0%          0          0
+GigabitEthernet2/0/2        *down down         0%     0%          0          0
+GigabitEthernet2/0/3        *down down         0%     0%          0          0
+GigabitEthernet2/0/4        *down down         0%     0%          0          0
+GigabitEthernet2/0/5        *down down         0%     0%          0          0
+GigabitEthernet2/0/6        *down down         0%     0%          0          0
+GigabitEthernet2/0/7        *down down         0%     0%          0          0
+GigabitEthernet2/0/8        *down down         0%     0%          0          0
+GigabitEthernet2/0/9        *down down         0%     0%          0          0
+GigabitEthernet2/0/10       *down down         0%     0%          0          0
+GigabitEthernet2/0/11       *down down         0%     0%          0          0
+GigabitEthernet2/0/12       *down down         0%     0%          0          0
+GigabitEthernet2/0/13       *down down         0%     0%          0          0
+GigabitEthernet2/0/14       *down down         0%     0%          0          0
+GigabitEthernet2/0/15       *down down         0%     0%          0          0
+GigabitEthernet2/0/16       *down down         0%     0%          0          0
+GigabitEthernet2/0/17       *down down         0%     0%          0          0
+GigabitEthernet2/0/18       *down down         0%     0%          0          0
+GigabitEthernet2/0/19       *down down         0%     0%          0          0
+GigabitEthernet2/0/20       *down down         0%     0%          0          0
+GigabitEthernet2/0/21       *down down         0%     0%          0          0
+GigabitEthernet2/0/22       *down down         0%     0%          0          0
+GigabitEthernet2/0/23       *down down         0%     0%          0          0
+GigabitEthernet2/0/24       down  down         0%     0%          0          0
+GigabitEthernet2/0/25       down  down         0%     0%          0          0
+GigabitEthernet2/0/26       down  down         0%     0%          0          0
+GigabitEthernet2/0/27       down  down         0%     0%          0          0
+GigabitEthernet2/0/28       down  down         0%     0%          0          0
+GigabitEthernet2/0/29       down  down         0%     0%          0          0
+GigabitEthernet2/0/30       down  down         0%     0%          0          0
+GigabitEthernet2/0/31       down  down         0%     0%          0          0
+GigabitEthernet2/0/32       down  down         0%     0%          0          0
+GigabitEthernet2/0/33       down  down         0%     0%          0          0
+GigabitEthernet2/0/34       down  down         0%     0%          0          0
+GigabitEthernet2/0/35       down  down         0%     0%          0          0
+GigabitEthernet2/0/36       down  down         0%     0%          0          0
+GigabitEthernet2/0/37       down  down         0%     0%          0          0
+GigabitEthernet2/0/38       down  down         0%     0%          0          0
+GigabitEthernet2/0/39       down  down         0%     0%          0          0
+GigabitEthernet2/0/40       down  down         0%     0%          0          0
+GigabitEthernet2/0/41       down  down         0%     0%          0          0
+GigabitEthernet2/0/42       down  down         0%     0%          0          0
+GigabitEthernet2/0/43       down  down         0%     0%          0          0
+GigabitEthernet2/0/44       down  down         0%     0%          0          0
+GigabitEthernet2/0/45       down  down         0%     0%          0          0
+GigabitEthernet2/0/46       *down down         0%     0%          0          0
+GigabitEthernet2/0/47       *down down         0%     0%          0          0
+NULL0                       up    up(s)        0%     0%          0          0
+Vlanif100                   up    up           --     --          0          0
+Vlanif4001                  up    up           --     --          0          0
+Vlanif4002                  up    up           --     --          0          0
+XGigabitEthernet3/0/4       down  down         0%     0%          0          0
+XGigabitEthernet3/0/5       down  down         0%     0%          0          0
+XGigabitEthernet3/0/6       down  down         0%     0%          0          0
+XGigabitEthernet3/0/7       down  down         0%     0%          0          0
+XGigabitEthernet3/0/8       down  down         0%     0%          0          0
+XGigabitEthernet3/0/9       down  down         0%     0%          0          0
+XGigabitEthernet3/0/10      down  down         0%     0%          0          0
+XGigabitEthernet3/0/11      down  down         0%     0%          0          0
+XGigabitEthernet3/0/12      down  down         0%     0%          0          0
+XGigabitEthernet3/0/13      down  down         0%     0%          0          0
+XGigabitEthernet3/0/14      down  down         0%     0%          0          0
+XGigabitEthernet3/0/15      down  down         0%     0%          0          0
+<SCCD_DQ302_1_SNS_SW01_HWS9306>
+<SCCD_DQ302_1_SNS_SW01_HWS9306>dis ipv6 int brie
+*down: administratively down
+!down: FIB overload down
+(l): loopback
+(s): spoofing
+(d): Dampening Suppressed
+Interface                    Physical              Protocol   
+Vlanif100                    up                    up         
+[IPv6 Address] 2409:8087:6200:2:1200::2
+Vlanif4001                   up                    up         
+[IPv6 Address] 2409:8062:0:3::73
+Vlanif4002                   up                    up         
+[IPv6 Address] FEC0::
+<SCCD_DQ302_1_SNS_SW01_HWS9306>
+<SCCD_DQ302_1_SNS_SW01_HWS9306>dis arp
+IP ADDRESS      MAC ADDRESS     EXPIRE(M) TYPE        INTERFACE   VPN-INSTANCE 
+                                          VLAN/CEVLAN 
+------------------------------------------------------------------------------
+192.168.0.1     a08c-f8ba-cd40            I -         Eth0/0/0       
+39.137.103.66   a08c-f8ba-cd4b            I -         Vlanif100      
+39.137.103.86   b496-9105-2e74  17        D-0         GE1/0/4        
+                                           100/-      
+39.137.103.68   487b-6bba-52d2  17        D-0         GE1/0/10       
+                                           100/-      
+39.137.103.88   a036-9fef-3004  17        D-0         GE1/0/6        
+                                           100/-      
+39.137.103.82   487b-6bba-5236  17        D-0         GE1/0/24       
+                                           100/-      
+39.137.103.69   487b-6bba-53d2  17        D-0         GE1/0/11       
+                                           100/-      
+39.137.103.92   1c98-ec28-b250  17        D-0         GE1/0/0        
+                                           100/-      
+39.137.103.67   a08c-f8ba-cc7b  8         D-0         Eth-Trunk2     
+                                           100/-      
+39.137.103.71   487b-6bba-52d4  17        D-0         GE1/0/13       
+                                           100/-      
+39.137.103.76   487b-6bba-529e  17        D-0         GE1/0/18       
+                                           100/-      
+39.137.103.75   487b-6bba-53d0  17        D-0         GE1/0/17       
+                                           100/-      
+39.137.103.80   487b-6bba-52c8  17        D-0         GE1/0/22       
+                                           100/-      
+39.137.103.78   487b-6b8b-1c26  17        D-0         GE1/0/20       
+                                           100/-      
+39.137.103.77   487b-6bba-53ce  17        D-0         GE1/0/19       
+                                           100/-      
+39.137.103.89   b496-9105-2c6b  17        D-0         GE1/0/7        
+                                           100/-      
+39.137.103.90   b496-910d-c8b3  14        D-0         GE1/0/8        
+                                           100/-      
+39.137.103.79   487b-6bba-52dc  14        D-0         GE1/0/21       
+                                           100/-      
+39.137.103.84   a036-9fed-c2bb  14        D-0         GE1/0/2        
+                                           100/-      
+39.137.103.72   487b-6bba-52ae  14        D-0         GE1/0/14       
+                                           100/-      
+39.137.103.85   a036-9fef-2fff  14        D-0         GE1/0/3        
+                                           100/-      
+39.137.103.81   487b-6bba-52b8  14        D-0         GE1/0/23       
+                                           100/-      
+39.137.103.73   487b-6bba-52ca  14        D-0         GE1/0/15       
+                                           100/-      
+39.137.103.83   487b-6bba-52ee  14        D-0         GE1/0/25       
+                                           100/-      
+39.137.103.87   b496-9105-2f85  14        D-0         GE1/0/5        
+                                           100/-      
+39.137.103.93   1c98-ec28-a201  14        D-0         GE1/0/1        
+                                           100/-      
+39.137.103.74   487b-6bba-52ba  14        D-0         GE1/0/16       
+                                           100/-      
+39.137.103.91   b496-910d-c8e9  14        D-0         GE1/0/9        
+                                           100/-      
+39.137.103.70   487b-6bba-529c  14        D-0         GE1/0/12       
+                                           100/-      
+39.137.103.119  Incomplete      1         D-0         Eth-Trunk2     
+                                           100/-      
+39.137.103.116  Incomplete      1         D-0         Eth-Trunk2     
+                                           100/-      
+39.137.103.102  Incomplete      1         D-0         Eth-Trunk2     
+                                           100/-      
+39.137.103.100  Incomplete      1         D-0         Eth-Trunk2     
+                                           100/-      
+39.137.103.121  Incomplete      1         D-0         Eth-Trunk2     
+                                           100/-      
+39.137.103.110  Incomplete      1         D-0         Eth-Trunk2     
+                                           100/-      
+39.137.103.122  Incomplete      1         D-0         Eth-Trunk2     
+                                           100/-      
+39.137.103.117  Incomplete      1         D-0         Eth-Trunk2     
+                                           100/-      
+39.137.103.97   Incomplete      1         D-0         Eth-Trunk2     
+                                           100/-      
+39.137.103.96   Incomplete      1         D-0         Eth-Trunk2     
+                                           100/-      
+39.137.103.107  Incomplete      1         D-0         Eth-Trunk2     
+                                           100/-      
+39.137.103.103  Incomplete      1         D-0         Eth-Trunk2     
+                                           100/-      
+39.137.103.105  Incomplete      1         D-0         Eth-Trunk2     
+                                           100/-      
+39.137.103.114  Incomplete      1         D-0         Eth-Trunk2     
+                                           100/-      
+39.137.103.118  Incomplete      1         D-0         Eth-Trunk2     
+                                           100/-      
+39.137.103.113  Incomplete      1         D-0         Eth-Trunk2     
+                                           100/-      
+39.137.103.120  Incomplete      1         D-0         Eth-Trunk2     
+                                           100/-      
+39.137.103.125  Incomplete      1         D-0         Eth-Trunk2     
+                                           100/-      
+39.137.103.111  Incomplete      1         D-0         Eth-Trunk2     
+                                           100/-      
+39.137.103.95   Incomplete      1         D-0         Eth-Trunk2     
+                                           100/-      
+183.221.35.114  a08c-f8ba-cd4c            I -         Vlanif4001     
+183.221.35.113  30d1-7eea-ac56  17        D-0         Eth-Trunk1     
+                                          4001/-      
+183.221.35.121  a08c-f8ba-cd4d            I -         Vlanif4002     
+183.221.35.122  a08c-f8ba-cc7d  10        D-0         Eth-Trunk2     
+                                          4002/-      
+------------------------------------------------------------------------------
+Total:53        Dynamic:49      Static:0     Interface:4    
+<SCCD_DQ302_1_SNS_SW01_HWS9306>
+<SCCD_DQ302_1_SNS_SW01_HWS9306>dis mac-address
+-------------------------------------------------------------------------------
+MAC Address    VLAN/VSI                          Learned-From        Type      
+-------------------------------------------------------------------------------
+1c98-ec28-a201 100/-                             GE1/0/1             dynamic   
+1c98-ec28-b250 100/-                             GE1/0/0             dynamic   
+487b-6b8b-1c26 100/-                             GE1/0/20            dynamic   
+487b-6bba-5236 100/-                             GE1/0/24            dynamic   
+487b-6bba-529c 100/-                             GE1/0/12            dynamic   
+487b-6bba-529e 100/-                             GE1/0/18            dynamic   
+487b-6bba-52ae 100/-                             GE1/0/14            dynamic   
+487b-6bba-52b8 100/-                             GE1/0/23            dynamic   
+487b-6bba-52ba 100/-                             GE1/0/16            dynamic   
+487b-6bba-52c8 100/-                             GE1/0/22            dynamic   
+487b-6bba-52ca 100/-                             GE1/0/15            dynamic   
+487b-6bba-52d2 100/-                             GE1/0/10            dynamic   
+487b-6bba-52d4 100/-                             GE1/0/13            dynamic   
+487b-6bba-52dc 100/-                             GE1/0/21            dynamic   
+487b-6bba-52ee 100/-                             GE1/0/25            dynamic   
+487b-6bba-53ce 100/-                             GE1/0/19            dynamic   
+487b-6bba-53d0 100/-                             GE1/0/17            dynamic   
+487b-6bba-53d2 100/-                             GE1/0/11            dynamic   
+a036-9fed-c2bb 100/-                             GE1/0/2             dynamic   
+a036-9fef-2fff 100/-                             GE1/0/3             dynamic   
+a036-9fef-3004 100/-                             GE1/0/6             dynamic   
+a08c-f8ba-cc7b 100/-                             Eth-Trunk2          dynamic   
+b496-9105-2c6b 100/-                             GE1/0/7             dynamic   
+b496-9105-2e74 100/-                             GE1/0/4             dynamic   
+b496-9105-2f85 100/-                             GE1/0/5             dynamic   
+b496-910d-c8b3 100/-                             GE1/0/8             dynamic   
+b496-910d-c8e9 100/-                             GE1/0/9             dynamic   
+30d1-7eea-ac56 4001/-                            Eth-Trunk1          dynamic   
+a08c-f8ba-cc7d 4002/-                            Eth-Trunk2          dynamic   
+
+-------------------------------------------------------------------------------
+Total items displayed = 29 
+
